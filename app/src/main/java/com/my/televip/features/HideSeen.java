@@ -1,7 +1,5 @@
 package com.my.televip.features;
 
-import static com.my.televip.MainHook.lpparam;
-
 import com.my.televip.base.AbstractMethodHook;
 import com.my.televip.loadClass;
 import com.my.televip.obfuscate.AutomationResolver;
@@ -13,16 +11,11 @@ import de.robv.android.xposed.XposedHelpers;
 public class HideSeen {
 private static Method getUserMethod;
     public static void init() {
-       AutomationResolver.loadParameter("2");
-       if (loadClass.MessagesControllerClass == null) {
-           loadClass.MessagesControllerClass = XposedHelpers.findClassIfExists(AutomationResolver.resolve("org.telegram.messenger.MessagesController"), lpparam.classLoader);
-       }
-         if (loadClass.MessagesControllerClass  != null){
-
+         if (loadClass.getMessagesControllerClass()  != null){
             XposedHelpers.findAndHookMethod(
-                    loadClass.MessagesControllerClass ,
+                    loadClass.getMessagesControllerClass() ,
                     AutomationResolver.resolve("MessagesController","completeReadTask", AutomationResolver.ResolverType.Method), // اسم الدالة
-                    AutomationResolver.merge(AutomationResolver.resolveObject("Parameter2"),  new AbstractMethodHook() {
+                    AutomationResolver.merge(AutomationResolver.resolveObject("2"),  new AbstractMethodHook() {
                         @Override
                         protected void beforeMethod(MethodHookParam param) {
                             // التحقق من الإعدادات
@@ -43,7 +36,7 @@ private static Method getUserMethod;
 
                                     try {
                                         if (getUserMethod == null) {
-                                            getUserMethod = loadClass.MessagesControllerClass .getDeclaredMethod(AutomationResolver.resolve("MessagesController", "getUser", AutomationResolver.ResolverType.Method), AutomationResolver.resolveObject("para1"));
+                                            getUserMethod = loadClass.getMessagesControllerClass() .getDeclaredMethod(AutomationResolver.resolve("MessagesController", "getUser", AutomationResolver.ResolverType.Method), AutomationResolver.resolveObject("para1"));
                                             getUserMethod.setAccessible(true);
                                         }
                                         // تحويل dialogId إلى Long

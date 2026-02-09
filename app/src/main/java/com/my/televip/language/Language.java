@@ -4,8 +4,6 @@ package com.my.televip.language;
 import android.content.Context;
 import android.content.res.Configuration;
 
-import com.my.televip.MainHook;
-
 import java.util.Locale;
 
 public class Language {
@@ -19,6 +17,7 @@ public class Language {
     public static String ChangeTo;
     public static String NameDeleted;
     public static String GhostMode;
+    public static String byMustafa;
     public static String HideSeenUser;
     public static String HideSeenGroups;
     public static String HideStoryView;
@@ -53,6 +52,7 @@ public class Language {
             ChangeTo="تم تغير الى";
             NameDeleted="تم حذف الاسم";
             GhostMode="وضع الشبح 👻";
+            byMustafa="تم تطوير من قبل @m_1_iq";
             HideSeenUser="اخفاء علامة الاستلام من المحادثة الخاصة";
             HideSeenGroups="اخفاء علامة الاستلام من المجموعات والقنوات";
             HideStoryView="اخفاء مشاهدة قصة";
@@ -83,6 +83,7 @@ public class Language {
             ChangeTo = "更改为";
             NameDeleted = "名称已删除";
             GhostMode = "幽灵模式 👻";
+            byMustafa="by @m_1_iq";
             HideSeenUser = "隐藏私人聊天的已读状态";
             HideSeenGroups = "隐藏群组和频道的已读状态";
             HideStoryView = "隐藏 '故事观看' 状态";
@@ -113,6 +114,7 @@ public class Language {
             ChangeTo="Change to";
             NameDeleted = "Name deleted";
             GhostMode="Ghost Mode 👻";
+            byMustafa="by @m_1_iq";
             HideSeenUser = "Hide 'Seen' status for private chats";
             HideSeenGroups = "Hide 'Seen' status for groups and channels";
             HideStoryView = "Hide 'Story View' status";

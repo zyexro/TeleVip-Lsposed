@@ -7,8 +7,7 @@ import com.my.televip.obfuscate.AutomationResolver;
 
 import de.robv.android.xposed.XposedHelpers;
 
-public class downloadSpeed {
-
+public class DownloadSpeed {
     public static void init() {
         Class<?> FileLoadOperationClass = XposedHelpers.findClassIfExists(AutomationResolver.resolve("org.telegram.messenger.FileLoadOperation"), lpparam.classLoader);
 if (FileLoadOperationClass != null) {

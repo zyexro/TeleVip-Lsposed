@@ -12,11 +12,10 @@ public class NoStoryRead {
 
         Class<?> StoriesControllerClass = XposedHelpers.findClassIfExists(AutomationResolver.resolve("org.telegram.ui.Stories.StoriesController"), lpparam.classLoader);
      if (StoriesControllerClass != null) {
-         AutomationResolver.loadParameter("1");
          XposedHelpers.findAndHookMethod(
                  StoriesControllerClass,
                  AutomationResolver.resolve("StoriesController","markStoryAsRead", AutomationResolver.ResolverType.Method),
-                 AutomationResolver.merge(AutomationResolver.resolveObject("Parameter1"), new AbstractMethodHook() {
+                 AutomationResolver.merge(AutomationResolver.resolveObject("1"), new AbstractMethodHook() {
                      @Override
                      protected void beforeMethod(MethodHookParam param) {
                          param.setResult(false);

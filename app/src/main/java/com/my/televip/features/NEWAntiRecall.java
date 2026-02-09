@@ -523,15 +523,11 @@ public class NEWAntiRecall extends Language {
                 }
             });
 
-        if (loadClass.MessagesControllerClass == null){
-            loadClass.MessagesControllerClass = XposedHelpers.findClassIfExists(AutomationResolver.resolve("org.telegram.messenger.MessagesController"), lpparam.classLoader);
-        }
-        if (loadClass.MessagesControllerClass  != null) {
-            AutomationResolver.loadParameter("11");
+        if (loadClass.getMessagesControllerClass()  != null) {
             XposedHelpers.findAndHookMethod(
-                    loadClass.MessagesControllerClass,
+                    loadClass.getMessagesControllerClass(),
                     AutomationResolver.resolve("MessagesController","deleteMessages", AutomationResolver.ResolverType.Method),
-                    AutomationResolver.merge(AutomationResolver.resolveObject("Parameter11"),
+                    AutomationResolver.merge(AutomationResolver.resolveObject("11"),
                     new AbstractMethodHook() {
                         @Override
                         protected void beforeMethod(MethodHookParam param) {

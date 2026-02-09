@@ -5,41 +5,33 @@ import static com.my.televip.MainHook.lpparam;
 import com.my.televip.base.AbstractMethodHook;
 import com.my.televip.loadClass;
 import com.my.televip.obfuscate.AutomationResolver;
-
 import java.lang.reflect.Field;
-
 import de.robv.android.xposed.XposedHelpers;
 
 public class PreventMedia {
 private static Field messageOwnerField;
     public static void init() {
-if (loadClass.MessageObjectClass == null) {
-    loadClass.MessageObjectClass = XposedHelpers.findClassIfExists(AutomationResolver.resolve("org.telegram.messenger.MessageObject"), lpparam.classLoader);
-}
         Class<?> ChatActivityClass = XposedHelpers.findClassIfExists(AutomationResolver.resolve("org.telegram.ui.ChatActivity"), lpparam.classLoader);
 
-        if (loadClass.MessageObjectClass != null) {
+        if (loadClass.getMessageObjectClass() != null) {
             if (ChatActivityClass != null) {
-                AutomationResolver.loadParameter("5");
-                AutomationResolver.loadParameter("6");
-                XposedHelpers.findAndHookMethod(ChatActivityClass, AutomationResolver.resolve("ChatActivity","sendSecretMessageRead", AutomationResolver.ResolverType.Method),AutomationResolver.merge(AutomationResolver.resolveObject("Parameter5"),  new AbstractMethodHook() {
+                XposedHelpers.findAndHookMethod(ChatActivityClass, AutomationResolver.resolve("ChatActivity","sendSecretMessageRead", AutomationResolver.ResolverType.Method),AutomationResolver.merge(AutomationResolver.resolveObject("5"),  new AbstractMethodHook() {
                     @Override
                     protected void beforeMethod(MethodHookParam param) {
                         param.setResult(null);
                     }
                 }));
-                XposedHelpers.findAndHookMethod(ChatActivityClass, AutomationResolver.resolve("ChatActivity","sendSecretMediaDelete", AutomationResolver.ResolverType.Method),AutomationResolver.merge(AutomationResolver.resolveObject("Parameter6"),  new AbstractMethodHook() {
+                XposedHelpers.findAndHookMethod(ChatActivityClass, AutomationResolver.resolve("ChatActivity","sendSecretMediaDelete", AutomationResolver.ResolverType.Method),AutomationResolver.merge(AutomationResolver.resolveObject("6"),  new AbstractMethodHook() {
                     @Override
                     protected void beforeMethod(MethodHookParam param) {
                         param.setResult(null);
                     }
                 }));
             }
-            AutomationResolver.loadParameter("7");
 
             Class<?> SecretMediaViewerClass = XposedHelpers.findClassIfExists(AutomationResolver.resolve("org.telegram.ui.SecretMediaViewer"), lpparam.classLoader);
 
-            XposedHelpers.findAndHookMethod(SecretMediaViewerClass,AutomationResolver.resolve("SecretMediaViewer","openMedia", AutomationResolver.ResolverType.Method), AutomationResolver.merge(AutomationResolver.resolveObject("Parameter7"), new AbstractMethodHook() {
+            XposedHelpers.findAndHookMethod(SecretMediaViewerClass,AutomationResolver.resolve("SecretMediaViewer","openMedia", AutomationResolver.ResolverType.Method), AutomationResolver.merge(AutomationResolver.resolveObject("7"), new AbstractMethodHook() {
                 @Override
                 protected void beforeMethod(MethodHookParam param) throws Throwable {
                     param.args[2] = null;

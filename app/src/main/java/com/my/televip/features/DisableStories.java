@@ -11,25 +11,21 @@ import de.robv.android.xposed.XposedHelpers;
 public class DisableStories {
 
     public static void init() {
-        if (loadClass.MessagesControllerClass == null) {
-            loadClass.MessagesControllerClass = XposedHelpers.findClassIfExists(AutomationResolver.resolve("org.telegram.messenger.MessagesController"), lpparam.classLoader);
-        }
-        if (loadClass.MessagesControllerClass != null){
-        XposedHelpers.findAndHookMethod(loadClass.MessagesControllerClass, AutomationResolver.resolve("MessagesController","storiesEnabled", AutomationResolver.ResolverType.Method), new AbstractMethodHook() {
+        if (loadClass.getMessagesControllerClass() != null){
+        XposedHelpers.findAndHookMethod(loadClass.getMessagesControllerClass(), AutomationResolver.resolve("MessagesController","storiesEnabled", AutomationResolver.ResolverType.Method), new AbstractMethodHook() {
             @Override
             protected void beforeMethod(MethodHookParam param) {
                 param.setResult(false);
             }
         });
-        XposedHelpers.findAndHookMethod(loadClass.MessagesControllerClass, AutomationResolver.resolve("MessagesController","storyEntitiesAllowed", AutomationResolver.ResolverType.Method), new AbstractMethodHook() {
+        XposedHelpers.findAndHookMethod(loadClass.getMessagesControllerClass(), AutomationResolver.resolve("MessagesController","storyEntitiesAllowed", AutomationResolver.ResolverType.Method), new AbstractMethodHook() {
             @Override
             protected void beforeMethod(MethodHookParam param) {
                 param.setResult(false);
 
             }
         });
-    AutomationResolver.loadParameter("8");
-        XposedHelpers.findAndHookMethod(loadClass.MessagesControllerClass, AutomationResolver.resolve("MessagesController","storyEntitiesAllowed", AutomationResolver.ResolverType.Method), AutomationResolver.merge(AutomationResolver.resolveObject("Parameter8"),  new AbstractMethodHook() {
+        XposedHelpers.findAndHookMethod(loadClass.getMessagesControllerClass(), AutomationResolver.resolve("MessagesController","storyEntitiesAllowed", AutomationResolver.ResolverType.Method), AutomationResolver.merge(AutomationResolver.resolveObject("8"),  new AbstractMethodHook() {
             @Override
             protected void beforeMethod(MethodHookParam param) {
                 param.setResult(false);

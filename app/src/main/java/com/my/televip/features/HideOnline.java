@@ -24,8 +24,7 @@ public class HideOnline {
                 lpparam.classLoader
         );
         if (connectionsManagerClass != null) {
-            AutomationResolver.loadParameter("4");
-            XposedHelpers.findMethodExact(connectionsManagerClass, AutomationResolver.resolve("ConnectionsManager", "sendRequestInternal", AutomationResolver.ResolverType.Method), AutomationResolver.merge(AutomationResolver.resolveObject("Parameter4"), new AbstractMethodHook() {
+            XposedHelpers.findMethodExact(connectionsManagerClass, AutomationResolver.resolve("ConnectionsManager", "sendRequestInternal", AutomationResolver.ResolverType.Method), AutomationResolver.merge(AutomationResolver.resolveObject("4"), new AbstractMethodHook() {
                 @Override
                 protected void beforeMethod(MethodHookParam param) {
                     try {
@@ -54,15 +53,9 @@ public class HideOnline {
 
                 }
             }));
-            if (loadClass.ProfileActivityClass == null) {
-                loadClass.ProfileActivityClass = XposedHelpers.findClassIfExists(AutomationResolver.resolve("org.telegram.ui.ProfileActivity"), lpparam.classLoader);
-            }
-            if (loadClass.BaseFragmentClass == null) {
-                loadClass.BaseFragmentClass = XposedHelpers.findClassIfExists(AutomationResolver.resolve("org.telegram.ui.ActionBar.BaseFragment"), lpparam.classLoader);
-            }
-            if (loadClass.ProfileActivityClass != null && loadClass.BaseFragmentClass != null) {
+            if (loadClass.getProfileActivityClass() != null && loadClass.getBaseFragmentClass() != null) {
 
-                    XposedHelpers.findAndHookMethod(loadClass.ProfileActivityClass,
+                    XposedHelpers.findAndHookMethod(loadClass.getProfileActivityClass(),
                             AutomationResolver.resolve("ProfileActivity", "updateProfileData", AutomationResolver.ResolverType.Method),
                             AutomationResolver.merge(AutomationResolver.resolveObject("para8"),
                             new AbstractMethodHook() {
@@ -70,7 +63,7 @@ public class HideOnline {
                                 protected void afterMethod(MethodHookParam param) throws Throwable {
                                     final Object profileActivityInstance = param.thisObject;
                                     if (getUserConfigMethod == null) {
-                                        getUserConfigMethod = loadClass.BaseFragmentClass.getDeclaredMethod(AutomationResolver.resolve("BaseFragment", "getUserConfig", AutomationResolver.ResolverType.Method));
+                                        getUserConfigMethod = loadClass.getBaseFragmentClass().getDeclaredMethod(AutomationResolver.resolve("BaseFragment", "getUserConfig", AutomationResolver.ResolverType.Method));
                                         getUserConfigMethod.setAccessible(true);
                                     }
                                     Object userConfig = getUserConfigMethod.invoke(profileActivityInstance);
@@ -83,7 +76,7 @@ public class HideOnline {
                                         //noinspection DataFlowIssue
                                         long clientUserId = (long) getClientUserIdMethod.invoke(userConfig);
                                         if (userIdField == null) {
-                                            userIdField = loadClass.ProfileActivityClass.getDeclaredField(AutomationResolver.resolve("ProfileActivity", "userId", AutomationResolver.ResolverType.Field));
+                                            userIdField = loadClass.getProfileActivityClass().getDeclaredField(AutomationResolver.resolve("ProfileActivity", "userId", AutomationResolver.ResolverType.Field));
                                             userIdField.setAccessible(true);
                                         }
                                         final long userId = userIdField.getLong(profileActivityInstance);

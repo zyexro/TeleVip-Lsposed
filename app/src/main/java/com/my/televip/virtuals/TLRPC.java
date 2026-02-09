@@ -11,159 +11,50 @@ import com.my.televip.utils.FieldUtils;
 
 public class TLRPC {
     public static class Peer {
-        private final Object instance;
-        private final Class<?> clazz;
+        private final Object peer;
 
-        public Peer(Object instance)
-        {
-            this.instance = instance;
-            if (!instance.getClass().getName().equals(AutomationResolver.resolve("org.telegram.tgnet.TLRPC$Peer")))
-            {
-                Class<?> clazz = instance.getClass().getSuperclass();
-                if (clazz != null && !clazz.getName().equals(AutomationResolver.resolve("org.telegram.tgnet.TLRPC$Peer")))
-                    this.clazz = clazz.getSuperclass();
-                else
-                    this.clazz = clazz;
-            }
-            else
-            {
-                this.clazz = instance.getClass();
-            }
+        public Peer(Object peer) {
+            this.peer = peer;
         }
-
-        public long getChannelID()
-        {
-            try
-            {
-                if (ClientChecker.check(ClientChecker.ClientType.Nekogram)) {
-                    Field field = FieldUtils.getFieldFromMultiName(this.clazz, AutomationResolver.resolve("TLRPC$Peer", "channel_id", AutomationResolver.ResolverType.Field), long.class);
-                    if (field != null)
-                        return field.getLong(this.instance);
-                }
-                else
-                    return FieldUtils.getFieldLongOfClass(this.instance, this.clazz, AutomationResolver.resolve("TLRPC$Peer", "channel_id", AutomationResolver.ResolverType.Field));
-            }
-            catch (IllegalAccessException e)
-            {
-                Utils.log(e);
-            }
-            return Long.MIN_VALUE;
+        public long getUser_id(){
+            return XposedHelpers.getLongField(peer,"user_id");
+        }
+        public long getChat_id(){
+            return XposedHelpers.getLongField(peer,"chat_id");
+        }
+        public long getChannel_id(){
+            return XposedHelpers.getLongField(peer,"channel_id");
         }
     }
-
     public static class Message {
-        private final Object instance;
-        private final Class<?> clazz;
-
-        public Message(Object instance)
-        {
-            this.instance = instance;
-            if (!instance.getClass().getName().equals(AutomationResolver.resolve("org.telegram.tgnet.TLRPC$Message")))
-            {
-                Class<?> clazz = instance.getClass().getSuperclass();
-                if (clazz != null && !clazz.getName().equals(AutomationResolver.resolve("org.telegram.tgnet.TLRPC$Message")))
-                    this.clazz = clazz.getSuperclass();
-                else
-                    this.clazz = clazz;
-            }
-            else
-            {
-                this.clazz = instance.getClass();
-            }
+        public final Object message;
+        private int id;
+        public Message(Object message) {
+            this.message = message;
         }
-
-        public int getID()
-        {
-            try
-            {
-                if (ClientChecker.check(ClientChecker.ClientType.Nekogram)) {
-                    Field field = FieldUtils.getFieldFromMultiName(this.clazz, AutomationResolver.resolve("TLRPC$Message", "id", AutomationResolver.ResolverType.Field), int.class);
-                    if (field != null)
-                        return field.getInt(this.instance);
-                }
-                else
-                    return FieldUtils.getFieldIntOfClass(this.instance, this.clazz, "id");
+        public int getID(){
+            if (id == 0){
+                id = XposedHelpers.getIntField(message, "id");
             }
-            catch (IllegalAccessException e)
-            {
-                Utils.log(e);
-            }
-            return Integer.MIN_VALUE;
+            return id;
         }
-
-        public Peer getPeerID()
-        {
-            try
-            {
-                if (ClientChecker.check(ClientChecker.ClientType.Nekogram)) {
-                    Field field = FieldUtils.getFieldFromMultiName(this.clazz, AutomationResolver.resolve("TLRPC$Message", "peer_id", AutomationResolver.ResolverType.Field), AutomationResolver.resolve("org.telegram.tgnet.TLRPC$Peer"));
-                    if (field != null) {
-                        Object peer = field.get(this.instance);
-                        if (peer != null)
-                            return new Peer(peer);
-                    }
-                }
-                else {
-                    Object peer = FieldUtils.getFieldClassOfClass(this.instance, this.clazz, "peer_id");
-                    if (peer != null)
-                        return new Peer(peer);
-                }
-            }
-            catch (IllegalAccessException e)
-            {
-                Utils.log(e);
-            }
-            return null;
+        public String getMessage(){
+            return (String) XposedHelpers.getObjectField(message, "message");
         }
-
-        public int getFlags()
-        {
-            try
-            {
-                if (ClientChecker.check(ClientChecker.ClientType.Nekogram)) {
-                    Field field = FieldUtils.getFieldFromMultiName(this.clazz, AutomationResolver.resolve("TLRPC$Message", "flags", AutomationResolver.ResolverType.Field), int.class);
-                    if (field != null)
-                        return field.getInt(this.instance);
-                }
-                else
-                    return XposedHelpers.getIntField(this.instance, "flags");
-            }
-            catch (IllegalAccessException e)
-            {
-                Utils.log(e);
-            }
-            return Integer.MIN_VALUE;
+        public Object getMessages(){
+            return XposedHelpers.getObjectField(message, "messages");
         }
-
-        public void setFlags(int flags) {
-            try {
-                if (ClientChecker.check(ClientChecker.ClientType.Nekogram)) {
-                    Field field = FieldUtils.getFieldFromMultiName(this.clazz, AutomationResolver.resolve("TLRPC$Message", "flags", AutomationResolver.ResolverType.Field), int.class);
-                    if (field != null)
-                        field.setInt(this.instance, flags);
-                } else XposedHelpers.setIntField(this.instance, "flags", flags);
-            } catch (IllegalAccessException e)
-            {
-                Utils.log(e);
-            }
+        public Peer getFrom_id(){
+            return new TLRPC.Peer(XposedHelpers.getObjectField(message, "from_id"));
+        }
+        public int getFlags(){
+            return XposedHelpers.getIntField(message,"flags");
+        }
+        public void setFlags(int flags){
+            XposedHelpers.setIntField(message, "flags", flags);
         }
     }
 
-    /*
-    public static class TL_updateDeleteScheduledMessages {
-        private final Object instance;
-
-        public TL_updateDeleteScheduledMessages(Object instance)
-        {
-            this.instance = instance;
-        }
-
-        public ArrayList<Integer> getMessages()
-        {
-            return Utils.castList(FieldUtils.getFieldClassOfClass(this.instance, "messages"), Integer.class);
-        }
-    }
-*/
     public static class TL_updateDeleteChannelMessages {
         private final Object instance;
 

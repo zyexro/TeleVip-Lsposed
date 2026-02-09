@@ -16,32 +16,21 @@ public class EventType {
         eventType = (int) XposedHelpers.callStaticMethod(XposedHelpers.findClassIfExists(AutomationResolver.resolve("org.telegram.ui.ActionBar.Theme"), MainHook.lpparam.classLoader), AutomationResolver.resolve("Theme", "getEventType", AutomationResolver.ResolverType.Method));
         int drawableResource = 0;
         if (!ClientChecker.check(ClientChecker.ClientType.Nagram)) {
-            if (loadClass.drawableClass == null) {
-                loadClass.drawableClass = XposedHelpers.findClassIfExists(AutomationResolver.resolve("org.telegram.messenger.R$drawable"), MainHook.lpparam.classLoader);
-            }
-            if (loadClass.drawableClass != null) {
+            if (loadClass.getDrawableClass() != null) {
                 if (eventType == 0) {
-                    drawableResource = XposedHelpers.getStaticIntField(loadClass.drawableClass, "msg_settings_ny");
+                    drawableResource = XposedHelpers.getStaticIntField(loadClass.getDrawableClass(), "msg_settings_ny");
                 } else if (eventType == 1) {
-                    drawableResource = XposedHelpers.getStaticIntField(loadClass.drawableClass, "msg_settings_14");
+                    drawableResource = XposedHelpers.getStaticIntField(loadClass.getDrawableClass(), "msg_settings_14");
                 } else if (eventType == 2) {
-                    drawableResource = XposedHelpers.getStaticIntField(loadClass.drawableClass, "msg_settings_hw");
+                    drawableResource = XposedHelpers.getStaticIntField(loadClass.getDrawableClass(), "msg_settings_hw");
                 } else {
-                    drawableResource = XposedHelpers.getStaticIntField(loadClass.drawableClass, "msg_settings_old");
+                    drawableResource = XposedHelpers.getStaticIntField(loadClass.getDrawableClass(), "msg_settings_old");
                 }
             } else {
                 Utils.log("Not found rg.telegram.messenger.R$drawable, " + Utils.issue);
             }
         }else {
-            if (eventType == 0) {
-                drawableResource = 0x7f0807bf;
-            } else if (eventType == 1) {
-                drawableResource = 0x7f0807bd;
-            } else if (eventType == 2) {
-                drawableResource = 0x7f0807be;
-            } else {
-                drawableResource = 0x7f0807c0;
-            }
+            drawableResource = 0x7f08080f;
         }
         return drawableResource;
     }

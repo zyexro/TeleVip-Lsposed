@@ -18,22 +18,20 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.XposedHelpers;
 
 public class onClickDialog extends Language {
-    public static void onClickOpenUrl(Context applicationContext, XC_MethodHook.MethodHookParam param){
-        Object drawerLayoutContainer;
-        if (ClientChecker.check(ClientChecker.ClientType.NagramX)){
-            drawerLayoutContainer = XposedHelpers.getObjectField(param.args[0], AutomationResolver.resolve("LaunchActivity", "drawerLayoutContainer", AutomationResolver.ResolverType.Field));
-        }else {
-            drawerLayoutContainer = XposedHelpers.getObjectField(param.thisObject, AutomationResolver.resolve("LaunchActivity", "drawerLayoutContainer", AutomationResolver.ResolverType.Field));
+    public static void onClickOpenUrl(Context applicationContext, final XC_MethodHook.MethodHookParam param) {
+        XposedHelpers.callStaticMethod(
+                XposedHelpers.findClass(AutomationResolver.resolve("org.telegram.messenger.browser.Browser"), MainHook.lpparam.classLoader),
+                AutomationResolver.resolve("Browser", "openUrl", AutomationResolver.ResolverType.Method), applicationContext, "https://t.me/t_l0_e"
+        );
+        if (param != null) {
+            Object drawerLayoutContainer = XposedHelpers.getObjectField(param.thisObject, AutomationResolver.resolve("LaunchActivity", "drawerLayoutContainer", AutomationResolver.ResolverType.Field));
+            if (drawerLayoutContainer != null) {
+                XposedHelpers.callMethod(drawerLayoutContainer, AutomationResolver.resolve("DrawerLayoutAdapter", "closeDrawer", AutomationResolver.ResolverType.Method));
+            }
         }
-         if (drawerLayoutContainer != null) {
-            XposedHelpers.callStaticMethod(
-                    XposedHelpers.findClass(AutomationResolver.resolve("org.telegram.messenger.browser.Browser"), MainHook.lpparam.classLoader),
-                    AutomationResolver.resolve("Browser","openUrl", AutomationResolver.ResolverType.Method), applicationContext, "https://t.me/t_l0_e"
-            );
-            XposedHelpers.callMethod(drawerLayoutContainer, AutomationResolver.resolve("DrawerLayoutAdapter","closeDrawer", AutomationResolver.ResolverType.Method));
             //XposedHelpers.callMethod(dialog, "dismiss");
-        }
     }
+
     public static void onClickSave(List<CheckBox> checkBoxes){
             // الكود الذي يتم تنفيذه عند الضغط على الزر
             for (int i = 0; i < checkBoxes.size(); i++) {

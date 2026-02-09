@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XposedBridge;
 
 public class AutomationResolver {
     public static Map<String, LoaderParameter> Loaders = new HashMap<>();
@@ -98,6 +99,7 @@ public class AutomationResolver {
 
     public static Class<?>[] resolveObject(String name, String pkgName)
     {
+        loadParameter(name);
        if (ClientChecker.check(ClientChecker.ClientType.Telegram, pkgName))
         {
             if (Telegram.ParameterResolver.has(name)) {
@@ -378,10 +380,13 @@ public class AutomationResolver {
     }
     public static Object[] merge(Class<?>[] classes, XC_MethodHook hook)
     {
-        Object[] result = new Object[classes.length + 1];
-        System.arraycopy(classes, 0, result, 0, classes.length);
-        result[classes.length] = hook;
-        return result;
+        if (classes != null) {
+            Object[] result = new Object[classes.length + 1];
+            System.arraycopy(classes, 0, result, 0, classes.length);
+            result[classes.length] = hook;
+            return result;
+        }
+        return null;
     }
 
 public static void loadParameter(String name){
@@ -401,7 +406,6 @@ public static void loadParameter(String name){
             Loaders.put(ClientChecker.getClientType(ClientChecker.ClientType.forkgram), new forkgram.loadParameter());
             Loaders.put(ClientChecker.getClientType(ClientChecker.ClientType.forkgramBeta), new forkgramBeta.loadParameter());
             Loaders.put(ClientChecker.getClientType(ClientChecker.ClientType.Teegra), new Teegra.loadParameter());
-
         }
         if (!Loaders.isEmpty()) {
             LoaderParameter loader = Loaders.get(Utils.pkgName);
@@ -439,6 +443,9 @@ public static void loadParameter(String name){
                         break;
                     case "11":
                         loader.loadParameter11();
+                        break;
+                    case "12":
+                        loader.loadParameter12();
                         break;
                 }
         }

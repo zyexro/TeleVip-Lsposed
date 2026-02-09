@@ -15,14 +15,11 @@ public class HidePhone {
 private static Method getUserConfigMethod;
 private static Method getClientUserIdMethod;
     public static void init() {
-        if (loadClass.MessagesControllerClass == null) {
-            loadClass.MessagesControllerClass = XposedHelpers.findClassIfExists(AutomationResolver.resolve("org.telegram.messenger.MessagesController"), lpparam.classLoader);
-        }
-    if (loadClass.MessagesControllerClass != null) {
+    if (loadClass.getMessagesControllerClass() != null) {
         Class<?> baseControllerClass = XposedHelpers.findClassIfExists(AutomationResolver.resolve("org.telegram.messenger.BaseController"), lpparam.classLoader);
         if (baseControllerClass != null) {
 
-            XposedHelpers.findAndHookMethod(loadClass.MessagesControllerClass, AutomationResolver.resolve("MessagesController","getUser", AutomationResolver.ResolverType.Method), AutomationResolver.merge(AutomationResolver.resolveObject("para1"), new AbstractMethodHook() {
+            XposedHelpers.findAndHookMethod(loadClass.getMessagesControllerClass(), AutomationResolver.resolve("MessagesController","getUser", AutomationResolver.ResolverType.Method), AutomationResolver.merge(AutomationResolver.resolveObject("para1"), new AbstractMethodHook() {
                 @Override
                 protected void afterMethod(XC_MethodHook.MethodHookParam param) throws Throwable {
                     Object userObject = param.getResult();
