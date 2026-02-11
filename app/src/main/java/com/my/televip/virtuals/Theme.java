@@ -60,5 +60,14 @@ public class Theme {
         return null;
     }
 
+    public static int getColor(int key){
+        return (int)XposedHelpers.callStaticMethod(loadClass.getThemeClass(), "getColor", key);
+    }
+    public static int getKey_windowBackgroundGray(){
+        return (int)XposedHelpers.getStaticObjectField(loadClass.getThemeClass(), "key_windowBackgroundGray");
+    }
+    public static int getKey_windowBackgroundWhite(){
+        return (int)XposedHelpers.getStaticObjectField(loadClass.getThemeClass(), "key_windowBackgroundWhite");
+    }
 
 }

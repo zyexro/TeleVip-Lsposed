@@ -24,15 +24,13 @@ public class TelegramBeta {
     private static final List<MethodInfo> methodList = new ArrayList<>();
 
     static {
-        classList.add(new ClassInfo("org.telegram.ui.ProfileActivity$6", "org.telegram.ui.ProfileActivity$6"));
         classList.add(new ClassInfo("org.telegram.ui.ChatActivity$13", "org.telegram.ui.ChatActivity$12"));
-        methodList.add(new MethodInfo("LaunchActivity", "lambda$onCreate$6", "lambda$onCreate$6"));
 
         ParameterResolver.register("para1",new Class[]{Long.class});
         ParameterResolver.register("para2",new Class[]{int.class, int.class, CharSequence.class});
         ParameterResolver.register("para3",new Class[]{int.class});
         ParameterResolver.register("para4",new Class[]{int.class, CharSequence.class, int.class});
-        ParameterResolver.register("para5",new Class[]{android.view.View.class,int.class, float.class, float.class});
+        //ParameterResolver.register("para5",new Class[]{android.view.View.class,int.class, float.class, float.class});
         ParameterResolver.register("para6",new Class[]{boolean.class, boolean.class});
         ParameterResolver.register("para7",new Class[]{int.class, int.class, CharSequence.class});
         ParameterResolver.register("para8",new Class[]{boolean.class});

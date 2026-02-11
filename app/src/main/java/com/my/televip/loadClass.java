@@ -16,6 +16,7 @@ public class loadClass {
     public static  Class<?> drawableClass;
     public static Class<?> UserObjectClass;
     public static Class<?> MessagesControllerClass;
+    public static Class<?> ThemeClass;
 
     //Context
     public static Context applicationContext;
@@ -61,6 +62,21 @@ public class loadClass {
             MessagesControllerClass = XposedHelpers.findClassIfExists(AutomationResolver.resolve("org.telegram.messenger.MessagesController"), lpparam.classLoader);
         }
         return MessagesControllerClass;
+    }
+    public static Class<?> getThemeClass() {
+        if (ThemeClass == null) {
+            ThemeClass = XposedHelpers.findClassIfExists(AutomationResolver.resolve("org.telegram.ui.ActionBar.Theme"), lpparam.classLoader);
+        }
+        return ThemeClass;
+    }
+    public static Context getApplicationContext() {
+        if (applicationContext == null) {
+                    applicationContext = (Context) XposedHelpers.getStaticObjectField(
+                    XposedHelpers.findClass(AutomationResolver.resolve("org.telegram.messenger.ApplicationLoader"), lpparam.classLoader),
+                    AutomationResolver.resolve("ApplicationLoader", "applicationContext", AutomationResolver.ResolverType.Field)
+            );
+        }
+        return applicationContext;
     }
 
 }

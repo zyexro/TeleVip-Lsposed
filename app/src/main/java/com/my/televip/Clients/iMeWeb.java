@@ -23,8 +23,8 @@ public class iMeWeb {
 
     static {
         classList.add(new ClassInfo("org.telegram.ui.ProfileActivity$6", "org.telegram.ui.ProfileActivity$7"));
-        classList.add(new ClassInfo("org.telegram.ui.ChatActivity$13", "org.telegram.ui.ChatActivity$28"));
-        methodList.add(new MethodInfo("LaunchActivity", "lambda$onCreate$6", "lambda$onCreate$23"));
+        classList.add(new ClassInfo("org.telegram.ui.ChatActivity$16", "org.telegram.ui.ChatActivity$29"));
+        methodList.add(new MethodInfo("LaunchActivity", "lambda$onCreate$8", "lambda$onCreate$25"));
 
         ParameterResolver.register("para1",new Class[]{Long.class});
         ParameterResolver.register("para2",new Class[]{int.class, int.class, CharSequence.class});

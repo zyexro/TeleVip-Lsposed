@@ -30,7 +30,7 @@ public class EventType {
                 Utils.log("Not found rg.telegram.messenger.R$drawable, " + Utils.issue);
             }
         }else {
-            drawableResource = 0x7f08080f;
+            drawableResource = 0x7f080806;
         }
         return drawableResource;
     }

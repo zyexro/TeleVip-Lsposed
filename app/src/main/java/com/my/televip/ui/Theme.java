@@ -44,6 +44,18 @@ public class Theme {
     public static boolean playing=false;
     public static int regr=0;
     public static String audioUrl;
+    public static boolean isSettings;
+
+
+    //Under development
+    /*
+    private static void openView(Object obj){
+        Class<?> dataSettings = XposedHelpers.findClassIfExists("org.telegram.ui.DataSettingsActivity", lpparam.classLoader);
+        Object tele = XposedHelpers.newInstance(dataSettings);
+        isSettings = true;
+        XposedHelpers.callMethod(obj, "presentFragment", tele);
+    }
+     */
 
     private static void openDialog(Context applicationContext, final XC_MethodHook.MethodHookParam param){
         final Class<?> alertDialogBuilderClass = XposedHelpers.findClassIfExists(
@@ -53,17 +65,11 @@ public class Theme {
         if (alertDialogBuilderClass != null) {
             ActiveTheme.setActiveTheme();
 
-            if (loadClass.applicationContext == null) {
-                loadClass.applicationContext = (Context) XposedHelpers.getStaticObjectField(
-                        XposedHelpers.findClass(AutomationResolver.resolve("org.telegram.messenger.ApplicationLoader"), lpparam.classLoader),
-                        AutomationResolver.resolve("ApplicationLoader", "applicationContext", AutomationResolver.ResolverType.Field)
-                );
-            }
             xSharedPreferences.SharedPre = applicationContext.getSharedPreferences(strTelevip, Activity.MODE_PRIVATE);
             FeatureManager.readFeature();
             Object alertDialog = XposedHelpers.newInstance(alertDialogBuilderClass, applicationContext);
             // عرض رسالة أو تخصيص النافذة
-            Language.init(loadClass.applicationContext);
+            Language.init(loadClass.getApplicationContext());
             ArrayList<String> list = getArrayList();
             final String[] items = list.toArray(new String[0]);
             XposedHelpers.callMethod(alertDialog, AutomationResolver.resolve("AlertDialog", "setTitle", AutomationResolver.ResolverType.Method), Ghost_Mode);
@@ -230,27 +236,12 @@ public class Theme {
         }
     }
 
-    public static void newTheme(){
-
-        Class<?> SettingsActivityClass = XposedHelpers.findClass(
-                AutomationResolver.resolve("org.telegram.ui.SettingsActivity"),
-                lpparam.classLoader
-        );
-        Class<?> SettingsActivity$SettingCell$FactoryClass = XposedHelpers.findClass(
-                AutomationResolver.resolve("org.telegram.ui.SettingsActivity$SettingCell$Factory"),
-                lpparam.classLoader
-        );
+    public static void newTheme(Class<?> SettingsActivityClass, Class<?> SettingsActivity$SettingCell$FactoryClass){
 
         AbstractMethodHook fillItemsHook = new AbstractMethodHook() {
             @Override
             protected void afterMethod(final MethodHookParam param) {
-                if (loadClass.applicationContext == null) {
-                    loadClass.applicationContext = (Context) XposedHelpers.getStaticObjectField(
-                            XposedHelpers.findClass(AutomationResolver.resolve("org.telegram.messenger.ApplicationLoader"), lpparam.classLoader),
-                            AutomationResolver.resolve("ApplicationLoader", "applicationContext", AutomationResolver.ResolverType.Field)
-                    );
-                }
-                Language.init(loadClass.applicationContext);
+                Language.init(loadClass.getApplicationContext());
                 ArrayList<Object> arrayList = (ArrayList<Object>) param.args[0];
                 if (arrayList != null) {
 
@@ -298,6 +289,7 @@ public class Theme {
 
                         Object SettingsActivity = param.thisObject;
                         Context applicationContext = (Context) XposedHelpers.callMethod(SettingsActivity, "getContext");
+                        //openView(SettingsActivity);
                         openDialog(applicationContext, null);
                     }
                 }
@@ -337,13 +329,8 @@ public class Theme {
                                 itemConstructor.setAccessible(true);
                             }
                             // استدعاء الطريقة مباشرة
-                            if (loadClass.applicationContext == null) {
-                                loadClass.applicationContext = (Context) XposedHelpers.getStaticObjectField(
-                                        XposedHelpers.findClass(AutomationResolver.resolve("org.telegram.messenger.ApplicationLoader"), lpparam.classLoader),
-                                        AutomationResolver.resolve("ApplicationLoader", "applicationContext", AutomationResolver.ResolverType.Field)
-                                );
-                            }
-                            Language.init(loadClass.applicationContext);
+
+                            Language.init(loadClass.getApplicationContext());
                             Object newItem = itemConstructor.newInstance(8353847, GhostMode, EventType.IconSettings());
 
                             // إضافة الكائن الجديد إلى القائمة

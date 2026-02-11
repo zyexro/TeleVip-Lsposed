@@ -3,7 +3,7 @@ package com.my.televip;
 
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
-import android.media.MediaPlayer;
+
 import android.os.Bundle;
 import de.robv.android.xposed.*;
 import java.util.ArrayList;
@@ -27,6 +27,7 @@ public class MainHook extends Language implements IXposedHookLoadPackage {
     public static Object LaunchActivity;
 
     public static boolean isStart;
+
     public static @NonNull ArrayList<String> getArrayList() {
         ArrayList<String> list = new ArrayList<>();
         list.add(HideSeenUser);
@@ -84,12 +85,24 @@ public class MainHook extends Language implements IXposedHookLoadPackage {
             } else {
                 strTelevip = "televip";
             }
+
             xSharedPreferences.xSharedPre = new XSharedPreferences(lpparam.packageName, strTelevip);
             ClassLoader classLoader = lpparam.classLoader;
             ApplicationLoaderHook.init(classLoader);
 
-            if (ClientChecker.check(ClientChecker.ClientType.Telegram) || ClientChecker.check(ClientChecker.ClientType.TelegramWeb) || ClientChecker.check(ClientChecker.ClientType.TelegramBeta) || ClientChecker.check(ClientChecker.ClientType.Nagram)){
-                Theme.newTheme();
+            //TeleVipActivity.init();
+
+            Class<?> SettingsActivityClass = XposedHelpers.findClassIfExists(
+                    AutomationResolver.resolve("org.telegram.ui.SettingsActivity"),
+                    lpparam.classLoader
+            );
+            Class<?> SettingsActivity$SettingCell$FactoryClass = XposedHelpers.findClassIfExists(
+                    AutomationResolver.resolve("org.telegram.ui.SettingsActivity$SettingCell$Factory"),
+                    lpparam.classLoader
+            );
+
+            if (SettingsActivityClass != null && SettingsActivity$SettingCell$FactoryClass != null){
+                Theme.newTheme(SettingsActivityClass, SettingsActivity$SettingCell$FactoryClass);
             } else {
                 Theme.oldTheme();
             }

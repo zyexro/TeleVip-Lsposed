@@ -24,8 +24,6 @@ public class Nagram {
     private static final List<MethodInfo> methodList = new ArrayList<>();
 
     static {
-        classList.add(new ClassInfo("org.telegram.ui.ProfileActivity$6", "org.telegram.ui.ProfileActivity$6"));
-        classList.add(new ClassInfo("org.telegram.ui.ChatActivity$13", "org.telegram.ui.ChatActivity$13"));
         methodList.add(new MethodInfo("LaunchActivity", "lambda$onCreate$6", "lambda$onCreate$8"));
 
         ParameterResolver.register("para1",new Class[]{Long.class});

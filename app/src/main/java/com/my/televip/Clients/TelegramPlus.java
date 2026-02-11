@@ -23,8 +23,8 @@ public class TelegramPlus {
 
     static {
         classList.add(new ClassInfo("org.telegram.ui.ProfileActivity$6", "org.telegram.ui.ProfileActivity$6"));
-        classList.add(new ClassInfo("org.telegram.ui.ChatActivity$13", "org.telegram.ui.ChatActivity$14"));
-        methodList.add(new MethodInfo("LaunchActivity", "lambda$onCreate$6", "lambda$onCreate$6"));
+        classList.add(new ClassInfo("org.telegram.ui.ChatActivity$16", "org.telegram.ui.ChatActivity$14"));
+        methodList.add(new MethodInfo("LaunchActivity", "lambda$onCreate$8", "lambda$onCreate$6"));
 
         ParameterResolver.register("para1",new Class[]{Long.class});
         ParameterResolver.register("para2",new Class[]{int.class, int.class, CharSequence.class});
@@ -134,16 +134,16 @@ public class TelegramPlus {
         public void loadParameter1() {
             Class<?> classStories$StoryItem = XposedHelpers.findClassIfExists(AutomationResolver.resolve("org.telegram.tgnet.tl.TL_stories$StoryItem"), MainHook.lpparam.classLoader);
             Class<?> classsStories$PeerStories = XposedHelpers.findClassIfExists(AutomationResolver.resolve("org.telegram.tgnet.tl.TL_stories$PeerStories"), MainHook.lpparam.classLoader);
-            ParameterResolver.register("Parameter1", new Class[]{classsStories$PeerStories, classStories$StoryItem, boolean.class});
+            ParameterResolver.register("1", new Class[]{classsStories$PeerStories, classStories$StoryItem, boolean.class});
         }
         public void loadParameter2() {
             Class<?> readTaskClass = XposedHelpers.findClassIfExists(AutomationResolver.resolve("org.telegram.messenger.MessagesController$ReadTask"), lpparam.classLoader);
-            ParameterResolver.register("Parameter2", new Class[]{readTaskClass});
+            ParameterResolver.register("2", new Class[]{readTaskClass});
 
         }
         public void loadParameter3() {
             Class<?> TLRPC$ChatClass = XposedHelpers.findClassIfExists(AutomationResolver.resolve("org.telegram.tgnet.TLRPC$Chat"), lpparam.classLoader);
-            ParameterResolver.register("Parameter3", new Class[]{TLRPC$ChatClass});
+            ParameterResolver.register("3", new Class[]{TLRPC$ChatClass});
 
         }
         public void loadParameter4() {
@@ -153,33 +153,33 @@ public class TelegramPlus {
             Class<?> quickAckDelegateClass = XposedHelpers.findClassIfExists(AutomationResolver.resolve("org.telegram.tgnet.QuickAckDelegate"), lpparam.classLoader);
             Class<?> writeToSocketDelegateClass = XposedHelpers.findClassIfExists(AutomationResolver.resolve("org.telegram.tgnet.WriteToSocketDelegate"), lpparam.classLoader);
 
-            ParameterResolver.register("Parameter4", new Class[]{tlObjectClass, requestDelegateClass, requestDelegateTimestampClass, quickAckDelegateClass, writeToSocketDelegateClass, int.class, int.class, int.class, boolean.class, int.class});
+            ParameterResolver.register("4", new Class[]{tlObjectClass, requestDelegateClass, requestDelegateTimestampClass, quickAckDelegateClass, writeToSocketDelegateClass, int.class, int.class, int.class, boolean.class, int.class});
 
         }
         public void loadParameter5() {
-            ParameterResolver.register("Parameter5", new Class[]{com.my.televip.loadClass.getMessageObjectClass(), boolean.class});
+            ParameterResolver.register("5", new Class[]{com.my.televip.loadClass.getMessageObjectClass(), boolean.class});
         }
         public void loadParameter6() {
-            ParameterResolver.register("Parameter6", new Class[]{com.my.televip.loadClass.getMessageObjectClass()});
+            ParameterResolver.register("6", new Class[]{com.my.televip.loadClass.getMessageObjectClass()});
         }
         public void loadParameter7() {
             Class<?> photoViewerproviderClass = XposedHelpers.findClassIfExists(AutomationResolver.resolve("org.telegram.ui.PhotoViewer$PhotoViewerProvider"), lpparam.classLoader);
-            ParameterResolver.register("Parameter7", new Class[]{com.my.televip.loadClass.getMessageObjectClass(), photoViewerproviderClass, Runnable.class, Runnable.class});
+            ParameterResolver.register("7", new Class[]{com.my.televip.loadClass.getMessageObjectClass(), photoViewerproviderClass, Runnable.class, Runnable.class});
         }
         public void loadParameter8() {
             Class<?> Userlass = XposedHelpers.findClassIfExists(AutomationResolver.resolve("org.telegram.tgnet.TLRPC$User"), lpparam.classLoader);
-            ParameterResolver.register("Parameter8", new Class[]{Userlass});
+            ParameterResolver.register("8", new Class[]{Userlass});
         }
         public void loadParameter9() {
             Class<?> conClass = XposedHelpers.findClassIfExists("android.content.Context", lpparam.classLoader);
-            ParameterResolver.register("Parameter9", new Class[]{conClass});
+            ParameterResolver.register("9", new Class[]{conClass});
         }
         public void loadParameter10() {}
 
         public void loadParameter11() {
             Class<?> EncryptedChatClass = XposedHelpers.findClassIfExists(AutomationResolver.resolve("org.telegram.tgnet.TLRPC$EncryptedChat"), lpparam.classLoader);
             Class<?> TLObjectClass = XposedHelpers.findClassIfExists(AutomationResolver.resolve("org.telegram.tgnet.TLObject"), lpparam.classLoader);
-            ParameterResolver.register("Parameter11", new Class[]{java.util.ArrayList.class,
+            ParameterResolver.register("11", new Class[]{java.util.ArrayList.class,
                     java.util.ArrayList.class,
                     EncryptedChatClass, // الفئة المحددة
                     long.class,

@@ -118,14 +118,9 @@ private static  Method getUserNameMethod;
                                 );
                                 addSubItemMethod.setAccessible(true);
                             }
-                                if (loadClass.applicationContext == null) {
-                                    loadClass.applicationContext = (Context) XposedHelpers.getStaticObjectField(
-                                            XposedHelpers.findClass(AutomationResolver.resolve("org.telegram.messenger.ApplicationLoader"), lpparam.classLoader),
-                                            AutomationResolver.resolve("ApplicationLoader", "applicationContext", AutomationResolver.ResolverType.Field)
-                                    );
-                                }
+
                             if (xSharedPreferences.SharedPre == null) {
-                                xSharedPreferences.SharedPre = loadClass.applicationContext.getSharedPreferences(strTelevip, Activity.MODE_PRIVATE);
+                                xSharedPreferences.SharedPre = loadClass.getApplicationContext().getSharedPreferences(strTelevip, Activity.MODE_PRIVATE);
                             }
                             if (xSharedPreferences.SharedPre != null) {
                                 if (!ClientChecker.check(ClientChecker.ClientType.Nagram)) {
@@ -167,23 +162,16 @@ private static  Method getUserNameMethod;
                         @Override
                         protected void afterMethod(MethodHookParam param) {
                             int id = (int) param.args[0];
-                            if (loadClass.applicationContext == null) {
-                                loadClass.applicationContext = (Context) XposedHelpers.getStaticObjectField(
-                                        XposedHelpers.findClass(AutomationResolver.resolve("org.telegram.messenger.ApplicationLoader"), lpparam.classLoader),
-                                        AutomationResolver.resolve("ApplicationLoader", "applicationContext", AutomationResolver.ResolverType.Field)
-                                );
-                            }
-                            if (loadClass.applicationContext != null) {
+
                                 if (id == 8353847) {
-                                    if (xSharedPreferences.SharedPre == null){
-                                        xSharedPreferences.SharedPre = loadClass.applicationContext.getSharedPreferences(strTelevip,Activity.MODE_PRIVATE);
+                                    if (xSharedPreferences.SharedPre == null) {
+                                        xSharedPreferences.SharedPre = loadClass.getApplicationContext().getSharedPreferences(strTelevip, Activity.MODE_PRIVATE);
                                     }
                                     if (xSharedPreferences.SharedPre != null) {
-                                        ((ClipboardManager) loadClass.applicationContext.getSystemService(Context.CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText("clipboard", xSharedPreferences.SharedPre.getString("id", "")));
-                                        Toast.makeText(loadClass.applicationContext, xSharedPreferences.SharedPre.getString("id", ""), Toast.LENGTH_LONG).show();
+                                        ((ClipboardManager) loadClass.getApplicationContext().getSystemService(Context.CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText("clipboard", xSharedPreferences.SharedPre.getString("id", "")));
+                                        Toast.makeText(loadClass.getApplicationContext(), xSharedPreferences.SharedPre.getString("id", ""), Toast.LENGTH_LONG).show();
                                     }
                                 }
-                            }
 
                         }
                     }));
@@ -209,13 +197,8 @@ private static  Method getUserNameMethod;
                                 lazilyAddSubItemMethod.setAccessible(true);
                             }
                             int drawableResource = XposedHelpers.getStaticIntField(loadClass.getDrawableClass(), "msg_go_up");
-                            if (loadClass.applicationContext == null) {
-                                loadClass.applicationContext = (Context) XposedHelpers.getStaticObjectField(
-                                        XposedHelpers.findClass(AutomationResolver.resolve("org.telegram.messenger.ApplicationLoader"), lpparam.classLoader),
-                                        AutomationResolver.resolve("ApplicationLoader", "applicationContext", AutomationResolver.ResolverType.Field)
-                                );
-                            }
-                            Language.init(loadClass.applicationContext);
+
+                            Language.init(loadClass.getApplicationContext());
                                 if (!ClientChecker.check(ClientChecker.ClientType.Cherrygram) && !ClientChecker.check(ClientChecker.ClientType.iMe) && !ClientChecker.check(ClientChecker.ClientType.iMeWeb) && !ClientChecker.check(ClientChecker.ClientType.TelegramPlus) && !ClientChecker.check(ClientChecker.ClientType.XPlus) && !ClientChecker.check(ClientChecker.ClientType.forkgram) && !ClientChecker.check(ClientChecker.ClientType.forkgramBeta) ) {
                                     lazilyAddSubItemMethod.invoke(headerItem, 8353847, drawableResource, ToTheBeginning);
                                 }
@@ -345,12 +328,6 @@ private static  Method getUserNameMethod;
             XposedHelpers.findAndHookMethod(loadClass.getProfileActivityClass(),AutomationResolver.resolve("ProfileActivity","createView", AutomationResolver.ResolverType.Method),AutomationResolver.merge(AutomationResolver.resolveObject("9"),new AbstractMethodHook() {
                 @Override
                 protected void afterMethod(MethodHookParam param) {
-                    if (loadClass.applicationContext == null) {
-                        loadClass.applicationContext = (Context) XposedHelpers.getStaticObjectField(
-                                XposedHelpers.findClass(AutomationResolver.resolve("org.telegram.messenger.ApplicationLoader"), lpparam.classLoader),
-                                AutomationResolver.resolve("ApplicationLoader", "applicationContext", AutomationResolver.ResolverType.Field)
-                        );
-                    }
                     final Object profileActivityInstance = param.thisObject;
 
                     // الحصول على الحقل nameTextView (كمصفوفة Objects لأنه لا يمكننا تعريف SimpleTextView مباشرة)
@@ -409,9 +386,9 @@ private static  Method getUserNameMethod;
                                                 String userName = (String) getUserNameMethod.invoke(null, user);
                                                 if (userName != null) {
                                                     String user_name = Copied + userName + ToTheClipboard;
-                                                    if (loadClass.applicationContext != null) {
-                                                        ((ClipboardManager) loadClass.applicationContext.getSystemService(Context.CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText("clipboard", userName));
-                                                        Toast.makeText(loadClass.applicationContext, user_name, Toast.LENGTH_LONG).show();
+                                                    if (loadClass.getApplicationContext() != null) {
+                                                        ((ClipboardManager) loadClass.getApplicationContext().getSystemService(Context.CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText("clipboard", userName));
+                                                        Toast.makeText(loadClass.getApplicationContext(), user_name, Toast.LENGTH_LONG).show();
                                                     }
                                                 }
                                             }
