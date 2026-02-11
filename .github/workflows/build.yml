@@ -1,4 +1,4 @@
-name: Build Android App
+name: Build TeleVip
 
 on:
   push:
@@ -27,7 +27,28 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew assembleRelease
 
-    - name: Upload APK
+    - name: Sign APK
+      if: github.event_name != 'pull_request' && env.SIGNING_KEY != null
+      uses: r0adkll/sign-android-release@v1
+      id: sign_app
+      with:
+        releaseDirectory: app/build/outputs/apk/release
+        signingKeyBase64: ${{ secrets.SIGNING_KEY }}
+        alias: ${{ secrets.ALIAS }}
+        keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
+        keyPassword: ${{ secrets.KEY_PASSWORD }}
+      env:
+        SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+
+    - name: Upload Signed APK
+      if: steps.sign_app.outputs.signedReleaseFile != null
+      uses: actions/upload-artifact@v4
+      with:
+        name: app-release-signed
+        path: ${{ steps.sign_app.outputs.signedReleaseFile }}
+
+    - name: Upload Unsigned APK (Fallback)
+      if: steps.sign_app.outputs.signedReleaseFile == null
       uses: actions/upload-artifact@v4
       with:
         name: app-release-unsigned
