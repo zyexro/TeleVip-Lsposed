@@ -101,7 +101,7 @@ public class MainHook extends Language implements IXposedHookLoadPackage {
                     lpparam.classLoader
             );
 
-            if (SettingsActivityClass != null && SettingsActivity$SettingCell$FactoryClass != null){
+            if (SettingsActivityClass != null && SettingsActivity$SettingCell$FactoryClass != null && !ClientChecker.check(ClientChecker.ClientType.Octogram)){
                 Theme.newTheme(SettingsActivityClass, SettingsActivity$SettingCell$FactoryClass);
             } else {
                 Theme.oldTheme();

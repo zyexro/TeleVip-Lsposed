@@ -4,6 +4,7 @@ package com.my.televip.obfuscate;
 
 import com.my.televip.ClientChecker;
 import com.my.televip.Clients.Teegra;
+import com.my.televip.Clients.Octogram;
 import com.my.televip.LoaderParameter;
 import com.my.televip.Utils;
 import com.my.televip.Clients.Cherrygram;
@@ -92,6 +93,10 @@ public class AutomationResolver {
          {
              if (Teegra.ClassResolver.has(className))
                  return Teegra.ClassResolver.resolve(className);
+         }else if (ClientChecker.check(ClientChecker.ClientType.Octogram, pkgName))
+         {
+             if (Octogram.ClassResolver.has(className))
+                 return Octogram.ClassResolver.resolve(className);
          }
 
         return className;
@@ -170,10 +175,15 @@ public class AutomationResolver {
            if (forkgramBeta.ParameterResolver.has(name)) {
                return forkgramBeta.ParameterResolver.resolve(name);
            }
-       }else if (ClientChecker.check(ClientChecker.ClientType.Teegra, pkgName))
+        }else if (ClientChecker.check(ClientChecker.ClientType.Teegra, pkgName))
        {
            if (Teegra.ParameterResolver.has(name)) {
                return Teegra.ParameterResolver.resolve(name);
+           }
+       }else if (ClientChecker.check(ClientChecker.ClientType.Octogram, pkgName))
+       {
+           if (Octogram.ParameterResolver.has(name)) {
+               return Octogram.ParameterResolver.resolve(name);
            }
        }
         return null;
@@ -361,6 +371,18 @@ public class AutomationResolver {
                 if (Teegra.MethodResolver.has(className, name))
                     return Teegra.MethodResolver.resolve(className, name);
             }
+        }else if (ClientChecker.check(ClientChecker.ClientType.Octogram, pkgName))
+        {
+            if (type == ResolverType.Field)
+            {
+                if (Octogram.FieldResolver.has(className, name))
+                    return Octogram.FieldResolver.resolve(className, name);
+            }
+            else if (type == ResolverType.Method)
+            {
+                if (Octogram.MethodResolver.has(className, name))
+                    return Octogram.MethodResolver.resolve(className, name);
+            }
         }
         return name;
     }
@@ -406,6 +428,7 @@ public static void loadParameter(String name){
             Loaders.put(ClientChecker.getClientType(ClientChecker.ClientType.forkgram), new forkgram.loadParameter());
             Loaders.put(ClientChecker.getClientType(ClientChecker.ClientType.forkgramBeta), new forkgramBeta.loadParameter());
             Loaders.put(ClientChecker.getClientType(ClientChecker.ClientType.Teegra), new Teegra.loadParameter());
+            Loaders.put(ClientChecker.getClientType(ClientChecker.ClientType.Octogram), new Octogram.loadParameter());
         }
         if (!Loaders.isEmpty()) {
             LoaderParameter loader = Loaders.get(Utils.pkgName);
